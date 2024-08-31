@@ -1,5 +1,5 @@
 import './index.css';
-import {initialCards, createCard, deleteCard} from './components/cards';
+import {initialCards, createCard, deleteCard, handleLike} from './components/cards';
 import {hidePopup, showPopup} from './components/modal';
 
 //General elements
@@ -64,4 +64,4 @@ function saveProfile(evt) {
     popupProfileDescription.value = "";
 }
 
-initialCards.forEach(card => placesList.append(createCard(card.name, card.link, deleteCard)));
+initialCards.forEach(card => placesList.append(createCard(card.name, card.link, deleteCard, handleLike)));

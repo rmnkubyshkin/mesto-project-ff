@@ -34,13 +34,17 @@ export const initialCards = [
 ];
 import {templateCard} from "../index";
 
-export function createCard(titleCard, imageCardLink, removeCard) {
+export function createCard(titleCard, imageCardLink, removeCard, toggleLike) {
     const card = templateCard.querySelector('.card').cloneNode(true);
     const cardDescription = card.querySelector('.card__description');
     const cardImage = card.querySelector('.card__image');
     const cardTitle = cardDescription.querySelector('.card__title');
     const deleteButton = card.querySelector('.card__delete-button');
+    const profileLikeButton = cardDescription.querySelector('.card__like-button');
+
     deleteButton.addEventListener('click', () => removeCard(card));
+    profileLikeButton.addEventListener('click', (evt) => toggleLike(evt));
+
     cardImage.src = imageCardLink;
     cardImage.classList.add('.card__image');
     cardImage.alt = `Image of ${titleCard}`;
@@ -51,4 +55,8 @@ export function createCard(titleCard, imageCardLink, removeCard) {
 export function deleteCard(card) {
     card.remove();
     return card;
+}
+
+export function handleLike(evt){
+    return evt.target.classList.toggle('card__like-button_is-active');
 }
