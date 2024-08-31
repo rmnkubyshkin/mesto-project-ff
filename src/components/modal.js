@@ -1,3 +1,12 @@
+import {
+    popupEditProfile,
+    popupProfileTitle,
+    profileTitle,
+    popupProfileDescription,
+    profileDescription,
+    popupImage,
+    popupImageSource,
+    popupCaptionSource} from "../index";
 
 
 export function hidePopup(evt, popup) {
@@ -14,11 +23,15 @@ export function hidePopup(evt, popup) {
         popup.classList.remove('popup_is-opened');
     }
 }
-import {popupEditProfile, popupProfileTitle, profileTitle, popupProfileDescription, profileDescription} from "../index";
-export function showPopup(popup) {
+
+export function showPopup(evt, popup, params=null) {
     if (popup === popupEditProfile) {
         popupProfileTitle.value = profileTitle.textContent;
         popupProfileDescription.value = profileDescription.textContent;
+    } else if (popup === popupImage) {
+        popupImageSource.src = params.cardImage.src;
+        popupImageSource.alt = params.cardImage.alt;
+        popupCaptionSource.textContent = params.cardTitle.textContent;
     }
     return popup.classList.add('popup_is-opened');
 }

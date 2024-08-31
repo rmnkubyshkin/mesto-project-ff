@@ -32,7 +32,10 @@ export const initialCards = [
         link: aggregationOfFish,
     }
 ];
-import {templateCard} from "../index";
+import {templateCard, popupImage} from "../index";
+import {showPopup} from "./modal";
+
+
 
 export function createCard(titleCard, imageCardLink, removeCard, toggleLike) {
     const card = templateCard.querySelector('.card').cloneNode(true);
@@ -41,9 +44,14 @@ export function createCard(titleCard, imageCardLink, removeCard, toggleLike) {
     const cardTitle = cardDescription.querySelector('.card__title');
     const deleteButton = card.querySelector('.card__delete-button');
     const profileLikeButton = cardDescription.querySelector('.card__like-button');
+    const params = {
+        "cardImage": cardImage,
+        "cardTitle": cardTitle
+    };
 
     deleteButton.addEventListener('click', () => removeCard(card));
     profileLikeButton.addEventListener('click', (evt) => toggleLike(evt));
+    cardImage.addEventListener('click', (evt) => showPopup(evt, popupImage, params));
 
     cardImage.src = imageCardLink;
     cardImage.classList.add('.card__image');
