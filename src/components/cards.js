@@ -54,7 +54,7 @@ export function createCard(titleCard, imageCardLink, removeCard, toggleLike) {
     cardImage.addEventListener('click', (evt) => showPopup(evt, popupImage, params));
 
     cardImage.src = imageCardLink;
-    cardImage.classList.add('.card__image');
+    cardImage.classList.add('card__image');
     cardImage.alt = `Image of ${titleCard}`;
     cardTitle.textContent = titleCard;
     return card;
