@@ -1,9 +1,10 @@
 import './index.css';
-import {initialCards} from './components/cards';
+import {initialCards} from './components/card';
 import {showPopup, hidePopup} from './components/modal';
+import {deleteCard,handleLike ,createCard} from "./components/card";
 
 //General elements
-const templateCard = document.querySelector("#card-template").content;
+export const templateCard = document.querySelector("#card-template").content;
 const content = document.querySelector('.content');
 const placesList = content.querySelector('.places__list');
 const profile = content.querySelector('.profile');
@@ -72,7 +73,7 @@ function editProfile() {
 function saveCard(evt) {
     evt.preventDefault();
     const newCreatedCard = createCard(popupNewCardName.value, popupCardImageLink.value, deleteCard, handleLike, showImage);
-    placesList.insertBefore(newCreatedCard, placesList.firstChild);
+    placesList.prepend(newCreatedCard);
     popupNewCardForm.reset();
     hidePopup(popupNewCard);
 
@@ -85,34 +86,6 @@ function saveProfile(evt) {
     hidePopup(popupEditProfile);
     popupProfileTitle.value = "";
     popupProfileDescription.value = "";
-}
-
-function createCard(titleCard, imageCardLink, removeCard, toggleLike, showImg) {
-    const card = templateCard.querySelector('.card').cloneNode(true);
-    const cardDescription = card.querySelector('.card__description');
-    const cardImage = card.querySelector('.card__image');
-    const cardTitle = cardDescription.querySelector('.card__title');
-    const deleteButton = card.querySelector('.card__delete-button');
-    const profileLikeButton = cardDescription.querySelector('.card__like-button');
-
-    deleteButton.addEventListener('click', () => removeCard(card));
-    profileLikeButton.addEventListener('click', (evt) => toggleLike(evt));
-    cardImage.addEventListener('click', () => showImg(cardImage, cardTitle));
-
-    cardImage.src = imageCardLink;
-    cardImage.classList.add('card__image');
-    cardImage.alt = `Image of ${titleCard}`;
-    cardTitle.textContent = titleCard;
-    return card;
-}
-
-function deleteCard(card) {
-    card.remove();
-    return card;
-}
-
-function handleLike(evt){
-    return evt.target.classList.toggle('card__like-button_is-active');
 }
 
 initialCards.forEach(card => placesList.append(createCard(card.name, card.link, deleteCard, handleLike, showImage)));
