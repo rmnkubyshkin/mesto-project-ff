@@ -1,5 +1,5 @@
 import './index.css';
-import {initialCards} from './components/card';
+import {initialCards} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
 import {deleteCard,handleLike ,createCard} from "./components/card";
 
