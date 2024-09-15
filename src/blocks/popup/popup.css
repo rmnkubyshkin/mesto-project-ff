@@ -5,6 +5,7 @@
 @import url('./__form/popup__form.css');
 @import url('./__input/popup__input.css');
 @import url('./__button/popup__button.css');
+@import url('./__button/_disabled/popup__button_disabled.css');
 @import url('./__caption/popup__caption.css');
 @import url('./__image/popup__image.css');
 
@@ -20,4 +21,26 @@
   bottom: 0;
   right: 0;
   z-index: 10;
+}
+
+.popup__input_type_description-error {
+}
+
+.popup__input_type_name-error {
+}
+
+.popup__error {
+  position: absolute;
+  display: block;
+  /*padding-block-start: 0px;*/
+  visibility: hidden;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FF0000;
+}
+
+.popup__error_visible {
+  visibility: visible;
 }

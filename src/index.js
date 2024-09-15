@@ -2,6 +2,7 @@ import './index.css';
 import {initialCards} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
 import {deleteCard,handleLike ,createCard} from "./components/card";
+import {enableValidation, clearValidation} from "./components/validation";
 
 //General elements
 export const templateCard = document.querySelector("#card-template").content;
@@ -87,5 +88,19 @@ function saveProfile(evt) {
     popupProfileTitle.value = "";
     popupProfileDescription.value = "";
 }
+
+
+const popupProfileInput = popupEditForm.querySelectorAll('.popup__input');
+const popupProfileSubmit = popupEditForm.querySelector('.popup__button');
+const popupError = popupEditForm.querySelector(`.popup__error`);
+
+
+enableValidation(
+    popupEditForm,
+    popupProfileInput,
+    popupError,
+    popupProfileSubmit,
+    'popup__button_disabled'
+);
 
 initialCards.forEach(card => placesList.append(createCard(card.name, card.link, deleteCard, handleLike, showImage)));
