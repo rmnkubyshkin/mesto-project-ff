@@ -92,14 +92,34 @@ function saveProfile(evt) {
 
 const popupProfileInput = popupEditForm.querySelectorAll('.popup__input');
 const popupProfileSubmit = popupEditForm.querySelector('.popup__button');
-const popupError = popupEditForm.querySelector(`.popup__error`);
+const popupProfileError = popupEditForm.querySelector(`.popup__error`);
 
+const popupNewCardInput = popupNewCardForm.querySelectorAll('.popup__input');
+const popupNewCardSubmit = popupNewCardForm.querySelector('.popup__button');
+const popupNewCardError = popupNewCardForm.querySelector(`.popup__error`);
+
+// const popupObjectConfig = {
+//     popupEditForm: '.popup__form',
+//     popupProfileInput: '.popup__input',
+//     popupProfileSubmit: '.popup__button',
+//     popupProfileSubmitDisabled: 'popup__button_disabled',
+//     popupProfileError: 'popup__input_type_error',
+//     popupErrorVisible: 'popup__error_visible'
+// };
 
 enableValidation(
     popupEditForm,
     popupProfileInput,
-    popupError,
+    popupProfileError,
     popupProfileSubmit,
+    'popup__button_disabled'
+);
+
+enableValidation(
+    popupNewCardForm,
+    popupNewCardInput,
+    popupNewCardError,
+    popupNewCardSubmit,
     'popup__button_disabled'
 );
 

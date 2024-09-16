@@ -8,11 +8,18 @@ export function enableValidation(
     popupInput.forEach((inputElement) => {
         inputElement.addEventListener('input', () => {
             toggleButtonState(popupInput, popupSubmit, popupSubmitDisabledClass);
+            if (inputElement.validity.patternMismatch) {
+                inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+            } else {
+                inputElement.setCustomValidity("");
+            }
+
             if (!inputElement.validity.valid) {
                 showInputError(popupForm, inputElement, inputElement.validationMessage);
             } else {
                 hideInputError(popupForm, inputElement);
             }
+            toggleButtonState(popupInput, popupSubmit, popupSubmitDisabledClass);
         });
     })
 }
@@ -33,6 +40,8 @@ function toggleButtonState(popupInput, popupSubmit, popupSubmitDisabledClass) {
         popupSubmit.classList.add(popupSubmitDisabledClass);
         popupSubmit.classList.add('popup__button:hover:disabled');
     }
+
+
 }
 
 function showInputError(elementPopupForm, inputElement, errorMessage) {
