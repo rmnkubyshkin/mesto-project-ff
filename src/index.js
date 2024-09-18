@@ -3,6 +3,7 @@ import {initialCards} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
 import {deleteCard,handleLike ,createCard} from "./components/card";
 import {enableValidation, clearValidation} from "./components/validation";
+import {createProfile} from "./components/profile";
 
 //General elements
 export const templateCard = document.querySelector("#card-template").content;
@@ -12,8 +13,9 @@ const profile = content.querySelector('.profile');
 
 //Profile elements
 const profileInfo = profile.querySelector('.profile__info');
-const profileTitle = profileInfo.querySelector('.profile__title');
-const profileDescription = profileInfo.querySelector('.profile__description');
+export const profileImage = profile.querySelector('.profile__image');
+export const profileTitle = profileInfo.querySelector('.profile__title');
+export const profileDescription = profileInfo.querySelector('.profile__description');
 const profileAddButton = profile.querySelector('.profile__add-button');
 const profileEditButton = profileInfo.querySelector('.profile__edit-button');
 
@@ -123,4 +125,6 @@ enableValidation(
     'popup__button_disabled'
 );
 
+
 initialCards.forEach(card => placesList.append(createCard(card.name, card.link, deleteCard, handleLike, showImage)));
+createProfile();
