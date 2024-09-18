@@ -18,8 +18,14 @@ const config = {
     }
 }
 
-export const getInitialCards = () => {
-    return fetch(GET_CARDS, config);
+export const getCards = () => {
+    return fetch(GET_CARDS, config)
+        .then(res => res.json())
+        .then((result) => {
+            return result;
+        }).catch((err) => {
+            console.log(`${err} Ошибка. Запрос не выполнен`);
+        });
 }
 
 export function getUser() {

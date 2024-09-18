@@ -1,5 +1,5 @@
 import './index.css';
-import {initialCards} from "./components/cards";
+import {fillInitialCards, initialCards} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
 import {deleteCard,handleLike ,createCard} from "./components/card";
 import {enableValidation, clearValidation} from "./components/validation";
@@ -8,7 +8,7 @@ import {createProfile} from "./components/profile";
 //General elements
 export const templateCard = document.querySelector("#card-template").content;
 const content = document.querySelector('.content');
-const placesList = content.querySelector('.places__list');
+export const placesList = content.querySelector('.places__list');
 const profile = content.querySelector('.profile');
 
 //Profile elements
@@ -51,7 +51,7 @@ popupImage.classList.add('popup_is-animated');
 profileAddButton.addEventListener('click', addCard);
 profileEditButton.addEventListener('click', editProfile);
 
-function showImage(cardImage, cardTitle) {
+export function showImage(cardImage, cardTitle) {
     popupImageSource.src = cardImage.src;
     popupImageSource.alt = cardImage.alt;
     popupCaptionSource.textContent = cardTitle.textContent;
@@ -126,5 +126,6 @@ enableValidation(
 );
 
 
-initialCards.forEach(card => placesList.append(createCard(card.name, card.link, deleteCard, handleLike, showImage)));
 createProfile();
+fillInitialCards();
+

@@ -11,7 +11,6 @@ export function createCard(titleCard, imageCardLink, removeCard, toggleLike, sho
     deleteButton.addEventListener('click', () => removeCard(card));
     profileLikeButton.addEventListener('click', (evt) => toggleLike(evt));
     cardImage.addEventListener('click', () => showImg(cardImage, cardTitle));
-
     cardImage.src = imageCardLink;
     cardImage.classList.add('card__image');
     cardImage.alt = `Image of ${titleCard}`;
