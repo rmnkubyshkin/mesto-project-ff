@@ -5,7 +5,7 @@ export const initialCards = [];
 
 
 export function fillInitialCards() {
-    getCards() 
+    getCards()
         .then((result) => {
             result.forEach((card) => {
                 initialCards.push(

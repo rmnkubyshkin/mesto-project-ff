@@ -4,6 +4,7 @@ import {showPopup, hidePopup} from './components/modal';
 import {deleteCard,handleLike ,createCard} from "./components/card";
 import {enableValidation, clearValidation} from "./components/validation";
 import {createProfile} from "./components/profile";
+import {saveProfileAtServer} from "./components/api";
 
 //General elements
 export const templateCard = document.querySelector("#card-template").content;
@@ -84,8 +85,12 @@ function saveCard(evt) {
 
 function saveProfile(evt) {
     evt.preventDefault();
-    profileTitle.textContent = popupProfileTitle.value;
-    profileDescription.textContent = popupProfileDescription.value;
+    const title = popupProfileTitle.value;
+    const description = popupProfileDescription.value;
+
+    saveProfileAtServer(title, description);
+    profileTitle.textContent = title;
+    profileDescription.textContent = description;
     hidePopup(popupEditProfile);
     popupProfileTitle.value = "";
     popupProfileDescription.value = "";
