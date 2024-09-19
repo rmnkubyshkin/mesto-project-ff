@@ -39,7 +39,6 @@ export function getUser() {
         }).catch((error) => console.error(error));
 }
 
-
 export function saveProfileAtServer(name, about) {
     const raw = JSON.stringify({
         "name": name,
@@ -58,3 +57,19 @@ export function saveProfileAtServer(name, about) {
     .catch((error) => console.error(error));
 }
 
+export function addCardToServer(name, link) {
+    const raw = JSON.stringify({
+        "name": name,
+        "link": link
+    });
+
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+    };
+
+    fetch(ADD_CARD, requestOptions)
+        .then((response) => {return response;})
+        .catch((error) => console.error(error));
+}

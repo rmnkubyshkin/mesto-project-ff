@@ -1,4 +1,5 @@
 import {templateCard} from "../index";
+import {addCardToServer} from "./api";
 
 export function createCard(titleCard, imageCardLink, removeCard, toggleLike, showImg) {
     const card = templateCard.querySelector('.card').cloneNode(true);
@@ -7,7 +8,7 @@ export function createCard(titleCard, imageCardLink, removeCard, toggleLike, sho
     const cardTitle = cardDescription.querySelector('.card__title');
     const deleteButton = card.querySelector('.card__delete-button');
     const profileLikeButton = cardDescription.querySelector('.card__like-button');
-
+    addCardToServer(titleCard, imageCardLink);
     deleteButton.addEventListener('click', () => removeCard(card));
     profileLikeButton.addEventListener('click', (evt) => toggleLike(evt));
     cardImage.addEventListener('click', () => showImg(cardImage, cardTitle));
