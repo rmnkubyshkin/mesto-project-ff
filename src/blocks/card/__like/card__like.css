@@ -1,0 +1,7 @@
+.card__like {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
