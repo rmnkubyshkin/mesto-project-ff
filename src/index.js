@@ -4,7 +4,7 @@ import {showPopup, hidePopup} from './components/modal';
 import {deleteCard,handleLike ,createCard} from "./components/card";
 import {enableValidation, clearValidation} from "./components/validation";
 import {createProfile} from "./components/profile";
-import {saveProfileAtServer} from "./components/api";
+import {addCardToServer, getUser, saveProfileAtServer} from "./components/api";
 
 //General elements
 export const templateCard = document.querySelector("#card-template").content;
@@ -76,11 +76,21 @@ function editProfile() {
 
 function saveCard(evt) {
     evt.preventDefault();
-    const newCreatedCard = createCard(popupNewCardName.value, popupCardImageLink.value, deleteCard, handleLike, showImage);
-    placesList.prepend(newCreatedCard);
-    popupNewCardForm.reset();
-    hidePopup(popupNewCard);
 
+    addCardToServer(popupNewCardName.value, popupCardImageLink.value)
+        .then((result) => {
+            const newCreatedCard = createCard(
+                result._id,
+                result.name,
+                result.link,
+                result.likes,
+                handleLike,
+                showImage,
+                deleteCard);
+            placesList.prepend(newCreatedCard);
+            popupNewCardForm.reset();
+            hidePopup(popupNewCard);
+    })
 }
 
 function saveProfile(evt) {
