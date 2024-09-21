@@ -3,7 +3,7 @@ import {showImage, placesList} from "../index";
 import {createCard, deleteCard, handleLike} from "./card";
 export const initialCards = [];
 
-export function fillInitialCards() {
+export function showCards() {
     getUser()
         .then((user) => {
             return user;
@@ -30,23 +30,29 @@ export function fillInitialCards() {
                 .then(() => {
                     initialCards.forEach(singleCard => {
                         let deleteSingleCard;
+                        let isMeLikingThisCard = false;
                         if (user._id === singleCard.owner._id) {
                             deleteSingleCard = deleteCard;
                         } else {
                             deleteSingleCard = false;
                         }
+                        singleCard.likes.forEach((userOfLike) => {
+                             if (userOfLike._id === user._id) {
+                                 isMeLikingThisCard = true;
+                             }
+                        });
                         const newCard = createCard(
                             singleCard._id,
                             singleCard.name,
                             singleCard.link,
                             singleCard.likes,
-                            handleLike,
+                            isMeLikingThisCard,
                             showImage,
                             deleteSingleCard,
                         );
                         placesList.append(newCard);
+                        return initialCards;
                     });
-                    return initialCards;
                 })
                 .catch((err) => {
                     console.log(`${err} Ошибка. Карточки не найдены`);

@@ -1,5 +1,5 @@
 import {templateCard} from "../index";
-import {addCardToServer, putLike, deleteCardFromServer} from "./api";
+import {putLike, deleteCardFromServer, deleteLike, getUser} from "./api";
 
 export function createCard(cardId,
                            titleCard,
@@ -22,17 +22,28 @@ export function createCard(cardId,
     } else {
         hideDeleteButton(deleteButton);
     }
-    cardLikeButton.addEventListener('click', (evt) => toggleLike(evt));
+    cardLikeNumber.textContent = cardLikes.length;
+
+    if (toggleLike) {
+        cardLikeButton.classList.add('card__like-button_is-active');
+    }
+
+    cardLikeButton.addEventListener('click', (evt) => handleLike(
+            evt,
+            cardId,
+            cardLikes.length,
+            cardLikeNumber
+    ));
     cardImage.addEventListener('click', () => showImg(cardImage, cardTitle));
     cardImage.src = imageCardLink;
-    cardLikeNumber.textContent = cardLikes.length;
+
     cardImage.classList.add('card__image');
     cardImage.alt = `Image of ${titleCard}`;
     cardTitle.textContent = titleCard;
     return card;
 }
 
-export function deleteCard(cardId, card) {
+export function deleteCard(cardId, card) { // Не выведен попап!!!
     deleteCardFromServer(cardId)
         .then(() => {
         return card.remove();})
@@ -44,12 +55,19 @@ export function hideDeleteButton(button) {
     return button.hidden = true;
 }
 
-export function handleLike(evt){
-   evt.target.classList.toggle('card__like-button_is-active');
+export function handleLike(evt, idCard, numOfLikes, cardLikeNumberElement){
 
    if (evt.target.classList.contains('card__like-button_is-active')) {
-      // putLike();
+       deleteLike(idCard).then((response) => {
+               cardLikeNumberElement.textContent = response.likes.length;
+               evt.target.classList.remove('card__like-button_is-active');
+           }
+       );
    } else {
-       //deleteLike();
+       putLike(idCard).then((response) => {
+               cardLikeNumberElement.textContent = response.likes.length;
+               evt.target.classList.add('card__like-button_is-active');
+           }
+       );
    }
 }

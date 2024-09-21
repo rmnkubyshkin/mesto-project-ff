@@ -1,5 +1,5 @@
 import './index.css';
-import {fillInitialCards, initialCards} from "./components/cards";
+import {showCards, initialCards} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
 import {deleteCard,handleLike ,createCard} from "./components/card";
 import {enableValidation, clearValidation} from "./components/validation";
@@ -84,7 +84,7 @@ function saveCard(evt) {
                 result.name,
                 result.link,
                 result.likes,
-                handleLike,
+                false,
                 showImage,
                 deleteCard);
             placesList.prepend(newCreatedCard);
@@ -142,5 +142,5 @@ enableValidation(
 
 
 createProfile();
-fillInitialCards();
+showCards();
 

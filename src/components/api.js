@@ -7,8 +7,8 @@ const GET_CARDS = `${BASE_URL}/${COHORT_NAME}/cards`;
 const UPDATE_PROFILE = `${BASE_URL}/${COHORT_NAME}/users/me`;
 const ADD_CARD = `${BASE_URL}/${COHORT_NAME}/cards`;
 const DELETE_CARD = `${BASE_URL}/${COHORT_NAME}/cards`; // add id card after slash
-const PUT_LIKE = `${BASE_URL}/${COHORT_NAME}/cards/likes/cardId`; // add id card after slash
-const DELETE_LIKE = `${BASE_URL}/${COHORT_NAME}/cards/likes/cardId`; // add id card after slash
+const PUT_LIKE = `${BASE_URL}/${COHORT_NAME}/cards/likes`; // add id card after slash
+const DELETE_LIKE = `${BASE_URL}/${COHORT_NAME}/cards/likes`; // add id card after slash
 const UPDATE_AVATAR = `${BASE_URL}/${COHORT_NAME}/users/me/avatar`;
 
 const myHeaders = new Headers();
@@ -33,9 +33,8 @@ export function getUser() {
         headers: myHeaders,
     };
     return fetch(GET_USER, requestOptions)
-        .then(res => res.json())
         .then((result) => {
-            return result;
+            return result.json();
         }).catch((error) => console.error(error));
 }
 
@@ -87,4 +86,32 @@ export function deleteCardFromServer(id) {
         .then((result) => {
             return result;
         }).catch((error) => console.error(error));
+}
+
+
+export function putLike(id) {
+    const requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+    };
+    return fetch(`${PUT_LIKE}/${id}`, requestOptions)
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).catch((error) => console.error(error));
+}
+
+export function deleteLike(id) {
+    const requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+    };
+    return fetch(`${DELETE_LIKE}/${id}`, requestOptions)
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .catch((error) => console.error(error));
 }
