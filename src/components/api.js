@@ -12,7 +12,7 @@ const DELETE_LIKE = `${BASE_URL}/${COHORT_NAME}/cards/likes`; // add id card aft
 const UPDATE_AVATAR = `${BASE_URL}/${COHORT_NAME}/users/me/avatar`;
 
 const myHeaders = new Headers();
-myHeaders.append("Authorization", "97b196fd-7e0c-4cfe-864d-aea1e8f81a13");
+myHeaders.append("Authorization", TOKEN);
 myHeaders.append("Content-Type", "application/json");
 
 export function getCards() {
@@ -21,10 +21,12 @@ export function getCards() {
         headers: myHeaders,
     };
     return fetch(GET_CARDS, requestOptions)
-        .then(res => res.json())
-        .then((result) => {
-            return result;
-        }).catch((error) => console.error(error));
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .catch((error) => console.error(error));
 }
 
 export function getUser() {
@@ -33,9 +35,12 @@ export function getUser() {
         headers: myHeaders,
     };
     return fetch(GET_USER, requestOptions)
-        .then((result) => {
-            return result.json();
-        }).catch((error) => console.error(error));
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .catch((error) => console.error(error));
 }
 
 export function saveProfileAtServer(name, about) {
@@ -51,9 +56,13 @@ export function saveProfileAtServer(name, about) {
         redirect: "follow"
     };
 
-    fetch(UPDATE_PROFILE, requestOptions)
-    .then((response) => {return response;})
-    .catch((error) => console.error(error));
+    return fetch(UPDATE_PROFILE, requestOptions)
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .catch((error) => console.error(error));
 }
 
 export function addCardToServer(name, link) {
@@ -83,11 +92,12 @@ export function deleteCardFromServer(id) {
         headers: myHeaders,
     };
     return fetch(`${DELETE_CARD}/${id}`, requestOptions)
-        .then((result) => {
-            return result;
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
         }).catch((error) => console.error(error));
 }
-
 
 export function putLike(id) {
     const requestOptions = {
@@ -108,6 +118,26 @@ export function deleteLike(id) {
         headers: myHeaders,
     };
     return fetch(`${DELETE_LIKE}/${id}`, requestOptions)
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .catch((error) => console.error(error));
+}
+
+export function updateAvatar(avatar) {
+    const raw = JSON.stringify({
+        "avatar" : avatar
+    });
+
+    const requestOptions = {
+        method: "PATCH",
+        headers: myHeaders,
+        body: raw,
+    };
+
+    return fetch(UPDATE_AVATAR, requestOptions)
         .then((response) => {
             if (response.ok) {
                 return response.json();

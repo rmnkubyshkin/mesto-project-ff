@@ -3,7 +3,7 @@ import {showCards, initialCards} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
 import {deleteCard,handleLike ,createCard} from "./components/card";
 import {enableValidation, clearValidation} from "./components/validation";
-import {createProfile} from "./components/profile";
+import {createProfile, editProfileAvatar} from "./components/profile";
 import {addCardToServer, getUser, saveProfileAtServer} from "./components/api";
 
 //General elements
@@ -15,6 +15,7 @@ const profile = content.querySelector('.profile');
 //Profile elements
 const profileInfo = profile.querySelector('.profile__info');
 export const profileImage = profile.querySelector('.profile__image');
+const profileImageEdit = profile.querySelector('.profile__image-edit');
 export const profileTitle = profileInfo.querySelector('.profile__title');
 export const profileDescription = profileInfo.querySelector('.profile__description');
 const profileAddButton = profile.querySelector('.profile__add-button');
@@ -48,9 +49,19 @@ const popupCaptionSource = popupContentImage.querySelector('.popup__caption');
 
 popupImage.classList.add('popup_is-animated');
 
+//Popup elements of showing image
+export const popupAvatar = document.querySelector('.popup__type_edit-avatar');
+const popupAvatarContent = popupAvatar.querySelector('.popup__content');
+export const popupAvatarCloseButton = popupAvatar.querySelector('.popup__close');
+const popupAvatarForm = popupAvatarContent.querySelector('.popup__form');
+export const popupAvatarLink = popupAvatarForm.querySelector('.popup__input_type_url');
+
+popupAvatar.classList.add('popup_is-animated');
+
 //EventListeners
 profileAddButton.addEventListener('click', addCard);
 profileEditButton.addEventListener('click', editProfile);
+profileImage.addEventListener('click', editProfileAvatar);
 
 export function showImage(cardImage, cardTitle) {
     popupImageSource.src = cardImage.src;
@@ -106,14 +117,17 @@ function saveProfile(evt) {
     popupProfileDescription.value = "";
 }
 
+const popupNewCardInput = popupNewCardForm.querySelectorAll('.popup__input');
+const popupNewCardSubmit = popupNewCardForm.querySelector('.popup__button');
+const popupNewCardError = popupNewCardForm.querySelector(`.popup__error`);
 
 const popupProfileInput = popupEditForm.querySelectorAll('.popup__input');
 const popupProfileSubmit = popupEditForm.querySelector('.popup__button');
 const popupProfileError = popupEditForm.querySelector(`.popup__error`);
 
-const popupNewCardInput = popupNewCardForm.querySelectorAll('.popup__input');
-const popupNewCardSubmit = popupNewCardForm.querySelector('.popup__button');
-const popupNewCardError = popupNewCardForm.querySelector(`.popup__error`);
+export const popupAvatarInput = popupAvatarForm.querySelectorAll('.popup__input');
+export const popupAvatarSubmit = popupAvatarForm.querySelector('.popup__button');
+const popupAvatarError = popupAvatarForm.querySelector(`.popup__error`);
 
 // const popupObjectConfig = {
 //     popupEditForm: '.popup__form',
@@ -140,6 +154,13 @@ enableValidation(
     'popup__button_disabled'
 );
 
+enableValidation(
+    popupAvatar,
+    popupAvatarInput,
+    popupAvatarError,
+    popupAvatarSubmit,
+    'popup__button_disabled'
+);
 
 createProfile();
 showCards();

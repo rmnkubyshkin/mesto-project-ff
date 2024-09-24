@@ -1,4 +1,6 @@
 .profile__image {
+  display: flex;
+  z-index: 1;
   width: 120px;
   height: 120px;
   -webkit-border-radius: 50%;
@@ -19,4 +21,20 @@
   .profile__image {
     margin-right: 0;
   }
+}
+
+.profile__image-edit {
+  display: flex;
+  z-index: 0;
+  position: absolute;
+  block-size: 26px;
+  inline-size: 26px;
+  margin-inline-start: 47px;
+  visibility: visible;
+}
+
+.profile__image:hover{
+  z-index: 0;
+  opacity: 0.2;
+  cursor: pointer;
 }

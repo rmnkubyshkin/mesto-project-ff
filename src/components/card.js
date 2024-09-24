@@ -43,10 +43,11 @@ export function createCard(cardId,
     return card;
 }
 
-export function deleteCard(cardId, card) { // Не выведен попап!!!
+export function deleteCard(cardId, card) {
     deleteCardFromServer(cardId)
         .then(() => {
-        return card.remove();})
+            return card.remove();
+        })
         .catch((error) => console.error(error));
 
 }
