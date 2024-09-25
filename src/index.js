@@ -1,10 +1,10 @@
 import './index.css';
-import {showCards, initialCards} from "./components/cards";
+import {showCards} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
-import {deleteCard,handleLike ,createCard} from "./components/card";
-import {enableValidation, clearValidation} from "./components/validation";
+import {deleteCard ,createCard} from "./components/card";
+import {enableValidation} from "./components/validation";
 import {createProfile, editProfileAvatar} from "./components/profile";
-import {addCardToServer, getUser, saveProfileAtServer} from "./components/api";
+import {addCardToServer, saveProfileAtServer} from "./components/api";
 
 //General elements
 export const templateCard = document.querySelector("#card-template").content;
@@ -15,7 +15,6 @@ const profile = content.querySelector('.profile');
 //Profile elements
 const profileInfo = profile.querySelector('.profile__info');
 export const profileImage = profile.querySelector('.profile__image');
-const profileImageEdit = profile.querySelector('.profile__image-edit');
 export const profileTitle = profileInfo.querySelector('.profile__title');
 export const profileDescription = profileInfo.querySelector('.profile__description');
 const profileAddButton = profile.querySelector('.profile__add-button');
@@ -72,6 +71,8 @@ export function showImage(cardImage, cardTitle) {
 }
 
 function addCard() {
+    popupNewCardName.value = "";
+    popupCardImageLink.value = "";
     showPopup(popupNewCard);
     popupNewCard.addEventListener('submit', saveCard);
     popupNewCardCloseButton.removeEventListener('click', () => hidePopup(popupNewCard));
@@ -108,7 +109,6 @@ function saveProfile(evt) {
     evt.preventDefault();
     const title = popupProfileTitle.value;
     const description = popupProfileDescription.value;
-
     saveProfileAtServer(title, description);
     profileTitle.textContent = title;
     profileDescription.textContent = description;
@@ -117,51 +117,24 @@ function saveProfile(evt) {
     popupProfileDescription.value = "";
 }
 
-const popupNewCardInput = popupNewCardForm.querySelectorAll('.popup__input');
-const popupNewCardSubmit = popupNewCardForm.querySelector('.popup__button');
-const popupNewCardError = popupNewCardForm.querySelector(`.popup__error`);
-
-const popupProfileInput = popupEditForm.querySelectorAll('.popup__input');
-const popupProfileSubmit = popupEditForm.querySelector('.popup__button');
-const popupProfileError = popupEditForm.querySelector(`.popup__error`);
-
 export const popupAvatarInput = popupAvatarForm.querySelectorAll('.popup__input');
 export const popupAvatarSubmit = popupAvatarForm.querySelector('.popup__button');
-const popupAvatarError = popupAvatarForm.querySelector(`.popup__error`);
 
-// const popupObjectConfig = {
-//     popupEditForm: '.popup__form',
-//     popupProfileInput: '.popup__input',
-//     popupProfileSubmit: '.popup__button',
-//     popupProfileSubmitDisabled: 'popup__button_disabled',
-//     popupProfileError: 'popup__input_type_error',
-//     popupErrorVisible: 'popup__error_visible'
-// };
 
-enableValidation(
-    popupEditForm,
-    popupProfileInput,
-    popupProfileError,
-    popupProfileSubmit,
-    'popup__button_disabled'
-);
-
-enableValidation(
-    popupNewCardForm,
-    popupNewCardInput,
-    popupNewCardError,
-    popupNewCardSubmit,
-    'popup__button_disabled'
-);
-
-enableValidation(
-    popupAvatar,
-    popupAvatarInput,
-    popupAvatarError,
-    popupAvatarSubmit,
-    'popup__button_disabled'
-);
+export const config = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__error',
+    errorClass: 'popup__error_visible'
+};
 
 createProfile();
 showCards();
+enableValidation(popupEditForm, config);
+enableValidation(popupNewCardForm, config);
+enableValidation(popupAvatarForm, config);
+
+
 

@@ -25,6 +25,7 @@ export function createProfile() {
 
 
 export function editProfileAvatar() {
+    popupAvatarLink.value = "";
     showPopup(popupAvatar);
     popupAvatarSubmit.addEventListener('click', (evt) => saveProfileAvatar(evt, popupAvatarLink));
 }

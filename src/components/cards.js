@@ -1,6 +1,6 @@
 import {getCards, getUser} from "./api";
 import {showImage, placesList} from "../index";
-import {createCard, deleteCard, handleLike} from "./card";
+import {createCard, deleteCard} from "./card";
 export const initialCards = [];
 
 export function showCards() {
