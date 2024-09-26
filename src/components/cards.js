@@ -1,7 +1,23 @@
 import {getCards, getUser} from "./api";
 import {showImage, placesList} from "../index";
-import {createCard, deleteCard} from "./card";
+import {createCard} from "./card";
 export const initialCards = [];
+
+function isMeLikedCard(userOfLikeId, userId) {
+    let result = false;
+    if (userOfLikeId === userId) {
+        result = true;
+    }
+    return result;
+}
+
+function isMyCard(myId, userOfCardId) {
+    let result = false;
+    if (myId === userOfCardId) {
+        result = true;
+    }
+    return result;
+}
 
 export function showCards() {
     getUser()
@@ -29,26 +45,19 @@ export function showCards() {
                 })
                 .then(() => {
                     initialCards.forEach(singleCard => {
-                        let deleteSingleCard;
-                        let isMeLikingThisCard = false;
-                        if (user._id === singleCard.owner._id) {
-                            deleteSingleCard = deleteCard;
-                        } else {
-                            deleteSingleCard = false;
-                        }
+                        let meLikedCard = false;
+                        let thisMyCard = isMyCard(user._id,singleCard.owner._id)
                         singleCard.likes.forEach((userOfLike) => {
-                             if (userOfLike._id === user._id) {
-                                 isMeLikingThisCard = true;
-                             }
+                            meLikedCard = isMeLikedCard(userOfLike._id, user._id)
                         });
                         const newCard = createCard(
                             singleCard._id,
                             singleCard.name,
                             singleCard.link,
                             singleCard.likes,
-                            isMeLikingThisCard,
+                            meLikedCard,
                             showImage,
-                            deleteSingleCard,
+                            thisMyCard,
                         );
                         placesList.append(newCard);
                         return initialCards;

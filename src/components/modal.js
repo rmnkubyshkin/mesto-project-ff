@@ -1,5 +1,3 @@
-import {clearValidation} from "./validation";
-import {config} from "../index";
 
 export const closePopupByOverlay = (evt) => {
     if (evt.target.matches('.popup') || evt.target.matches('.popup__close')) {
@@ -23,5 +21,4 @@ export function hidePopup(popup) {
     document.removeEventListener('keydown', closePopupByEsc);
     popup.removeEventListener('click', closePopupByOverlay);
     popup.classList.remove('popup_is-opened');
-    clearValidation(popup, config);
 }

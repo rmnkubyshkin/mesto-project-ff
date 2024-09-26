@@ -1,4 +1,4 @@
-import {getUser, saveProfileAtServer, updateAvatar} from "./api";
+import {getUser, updateAvatar} from "./api";
 import {
     profileDescription,
     profileTitle,
@@ -7,7 +7,7 @@ import {
     popupAvatarLink,
     popupAvatarCloseButton,
     popupAvatarSubmit,
-    popupAvatarInput
+    popupAvatarInput, popupAvatarButtonSubmit
 } from "../index";
 import {hidePopup, showPopup} from "./modal";
 
@@ -31,9 +31,11 @@ export function editProfileAvatar() {
 }
 
 function saveProfileAvatar(evt, popupAvatarInput) {
+    popupAvatarButtonSubmit.textContent = 'Сохранить...';
     evt.preventDefault();
     updateAvatar(popupAvatarInput.value).then((res) => {
         profileImage.style.backgroundImage =  `url(${res.avatar})`;
+        popupAvatarButtonSubmit.textContent = 'Сохранить';
         hidePopup(popupAvatar);
         popupAvatarLink.value = "";
     })

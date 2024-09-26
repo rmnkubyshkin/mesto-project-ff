@@ -68,6 +68,6 @@ export function clearValidation(popup, validationConfig) {
     const submit = form.querySelector(validationConfig.submitButtonSelector);
     input.forEach((inputElement) => {
         hideInputError(form, inputElement);
-            });
+    });
     enableButton(submit, validationConfig.inactiveButtonClass);
 }

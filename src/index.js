@@ -2,7 +2,7 @@ import './index.css';
 import {showCards} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
 import {deleteCard ,createCard} from "./components/card";
-import {enableValidation} from "./components/validation";
+import {clearValidation, enableValidation} from "./components/validation";
 import {createProfile, editProfileAvatar} from "./components/profile";
 import {addCardToServer, saveProfileAtServer} from "./components/api";
 
@@ -24,6 +24,7 @@ const profileEditButton = profileInfo.querySelector('.profile__edit-button');
 const popupNewCard = document.querySelector('.popup_type_new-card');
 const popupNewCardContent = popupNewCard.querySelector('.popup__content');
 const popupNewCardCloseButton = popupNewCard.querySelector('.popup__close');
+const popupNewCardButtonSubmit = popupNewCard.querySelector('.popup__button');
 const popupNewCardForm = popupNewCardContent.querySelector('.popup__form');
 const popupNewCardName = popupNewCardForm.querySelector('.popup__input_type_card-name');
 const popupCardImageLink = popupNewCardForm.querySelector('.popup__input_type_url');
@@ -33,6 +34,7 @@ popupNewCard.classList.add('popup_is-animated');
 //Popup elements of editing profile
 const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupEditProfileContent = popupEditProfile.querySelector('.popup__content');
+const popupEditProfileButtonSubmit = popupEditProfile.querySelector('.popup__button');
 const popupEditProfileCloseButton = popupEditProfileContent.querySelector('.popup__close');
 const popupEditForm = popupEditProfileContent.querySelector('.popup__form');
 const popupProfileTitle = popupEditForm.querySelector('.popup__input_type_name');
@@ -51,6 +53,7 @@ popupImage.classList.add('popup_is-animated');
 //Popup elements of showing image
 export const popupAvatar = document.querySelector('.popup__type_edit-avatar');
 const popupAvatarContent = popupAvatar.querySelector('.popup__content');
+export const popupAvatarButtonSubmit = popupAvatar.querySelector('.popup__button');
 export const popupAvatarCloseButton = popupAvatar.querySelector('.popup__close');
 const popupAvatarForm = popupAvatarContent.querySelector('.popup__form');
 export const popupAvatarLink = popupAvatarForm.querySelector('.popup__input_type_url');
@@ -67,7 +70,13 @@ export function showImage(cardImage, cardTitle) {
     popupImageSource.alt = cardImage.alt;
     popupCaptionSource.textContent = cardTitle.textContent;
     showPopup(popupImage);
-    popupImage.addEventListener('click', () => hidePopup(popupNewCard));
+    popupImage.addEventListener('click', () => exitFromPopup(popupImage));
+}
+function exitFromPopup(popup) {
+    hidePopup(popup);
+    if (!popup.classList.contains('popup_type_image')) {
+        clearValidation(popup, config);
+    }
 }
 
 function addCard() {
@@ -75,7 +84,7 @@ function addCard() {
     popupCardImageLink.value = "";
     showPopup(popupNewCard);
     popupNewCard.addEventListener('submit', saveCard);
-    popupNewCardCloseButton.removeEventListener('click', () => hidePopup(popupNewCard));
+    popupNewCardCloseButton.removeEventListener('click', () => exitFromPopup(popupNewCard));
 }
 
 function editProfile() {
@@ -83,12 +92,12 @@ function editProfile() {
     popupProfileTitle.value = profileTitle.textContent;
     popupProfileDescription.value = profileDescription.textContent;
     popupEditForm.addEventListener('submit', saveProfile);
-    popupEditProfileCloseButton.removeEventListener('click', () => hidePopup(popupEditProfile));
+    popupEditProfileCloseButton.removeEventListener('click', () => exitFromPopup(popupEditProfile));
 }
 
 function saveCard(evt) {
     evt.preventDefault();
-
+    popupNewCardButtonSubmit.textContent = "Сохранить...";
     addCardToServer(popupNewCardName.value, popupCardImageLink.value)
         .then((result) => {
             const newCreatedCard = createCard(
@@ -101,15 +110,19 @@ function saveCard(evt) {
                 deleteCard);
             placesList.prepend(newCreatedCard);
             popupNewCardForm.reset();
-            hidePopup(popupNewCard);
-    })
+            popupNewCardButtonSubmit.textContent = "Сохранить";
+            hidePopup(popupNewCard);})
 }
 
 function saveProfile(evt) {
     evt.preventDefault();
+    popupEditProfileButtonSubmit.textContent = "Сохранить...";
     const title = popupProfileTitle.value;
     const description = popupProfileDescription.value;
-    saveProfileAtServer(title, description);
+    saveProfileAtServer(title, description)
+        .then(() => {
+        popupEditProfileButtonSubmit.textContent = "Сохранить";
+    });
     profileTitle.textContent = title;
     profileDescription.textContent = description;
     hidePopup(popupEditProfile);

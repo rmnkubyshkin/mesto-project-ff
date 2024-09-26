@@ -1,5 +1,5 @@
 import {templateCard} from "../index";
-import {putLike, deleteCardFromServer, deleteLike, getUser} from "./api";
+import {putLike, deleteCardFromServer, deleteLike} from "./api";
 
 export function createCard(cardId,
                            titleCard,
@@ -18,7 +18,7 @@ export function createCard(cardId,
     const cardLikeNumber = cardLikeGroup.querySelector('.card__like-number');
 
     if (removeCard !== false && cardId !== false) {
-        deleteButton.addEventListener('click', () => removeCard(cardId, card));
+        deleteButton.addEventListener('click', () => deleteCard(cardId, card));
     } else {
         hideDeleteButton(deleteButton);
     }

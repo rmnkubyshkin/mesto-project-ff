@@ -56,7 +56,7 @@ export function saveProfileAtServer(name, about) {
         redirect: "follow"
     };
 
-    fetch(UPDATE_PROFILE, requestOptions)
+    return fetch(UPDATE_PROFILE, requestOptions)
         .then((response) => {
             if (response.ok) {
                 return response.json();
