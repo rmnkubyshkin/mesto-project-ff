@@ -21,12 +21,7 @@ export function getCards() {
         headers: myHeaders,
     };
     return fetch(GET_CARDS, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        })
-        .catch((error) => console.error(error));
+        .then((response) => handleResponse(response));
 }
 
 export function getUser() {
@@ -35,12 +30,7 @@ export function getUser() {
         headers: myHeaders,
     };
     return fetch(GET_USER, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        })
-        .catch((error) => console.error(error));
+        .then((response) => handleResponse(response));
 }
 
 export function saveProfileAtServer(name, about) {
@@ -57,12 +47,7 @@ export function saveProfileAtServer(name, about) {
     };
 
     return fetch(UPDATE_PROFILE, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        })
-        .catch((error) => console.error(error));
+        .then((response) => handleResponse(response));
 }
 
 export function addCardToServer(name, link) {
@@ -78,12 +63,7 @@ export function addCardToServer(name, link) {
     };
 
     return fetch(ADD_CARD, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        })
-        .catch((error) => console.error(error));
+        .then((response) => handleResponse(response));
 }
 
 export function deleteCardFromServer(id) {
@@ -92,11 +72,7 @@ export function deleteCardFromServer(id) {
         headers: myHeaders,
     };
     return fetch(`${DELETE_CARD}/${id}`, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        }).catch((error) => console.error(error));
+        .then((response) => handleResponse(response));
 }
 
 export function putLike(id) {
@@ -105,11 +81,7 @@ export function putLike(id) {
         headers: myHeaders,
     };
     return fetch(`${PUT_LIKE}/${id}`, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        }).catch((error) => console.error(error));
+        .then((response) => handleResponse(response));
 }
 
 export function deleteLike(id) {
@@ -118,19 +90,13 @@ export function deleteLike(id) {
         headers: myHeaders,
     };
     return fetch(`${DELETE_LIKE}/${id}`, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        })
-        .catch((error) => console.error(error));
+        .then((response) => handleResponse(response));
 }
 
 export function updateAvatar(avatar) {
     const raw = JSON.stringify({
         "avatar" : avatar
     });
-
     const requestOptions = {
         method: "PATCH",
         headers: myHeaders,
@@ -138,10 +104,9 @@ export function updateAvatar(avatar) {
     };
 
     return fetch(UPDATE_AVATAR, requestOptions)
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        })
-        .catch((error) => console.error(error));
+        .then((response) => handleResponse(response));
+}
+
+function handleResponse(response) {
+    return response.ok?response.json():console.log('Response is wrong!');
 }

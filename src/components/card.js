@@ -46,8 +46,7 @@ export function createCard(cardId,
 export function deleteCard(cardId, card) {
     deleteCardFromServer(cardId)
         .then(() => {
-            return card.remove();
-        })
+            return card.remove();})
         .catch((error) => console.error(error));
 
 }
@@ -59,16 +58,16 @@ export function hideDeleteButton(button) {
 export function handleLike(evt, idCard, numOfLikes, cardLikeNumberElement){
 
    if (evt.target.classList.contains('card__like-button_is-active')) {
-       deleteLike(idCard).then((response) => {
+       deleteLike(idCard)
+           .then((response) => {
                cardLikeNumberElement.textContent = response.likes.length;
-               evt.target.classList.remove('card__like-button_is-active');
-           }
-       );
+               evt.target.classList.remove('card__like-button_is-active');})
+           .catch((error) => console.error(error));
    } else {
-       putLike(idCard).then((response) => {
+       putLike(idCard)
+           .then((response) => {
                cardLikeNumberElement.textContent = response.likes.length;
-               evt.target.classList.add('card__like-button_is-active');
-           }
-       );
+               evt.target.classList.add('card__like-button_is-active');})
+           .catch((error) => console.error(error));
    }
 }

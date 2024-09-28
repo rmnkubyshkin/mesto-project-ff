@@ -11,16 +11,11 @@ import {
 } from "../index";
 import {hidePopup, showPopup} from "./modal";
 
-export function createProfile() {
-    getUser().then((profile) => {
-        profileDescription.textContent = profile.about;
-        profileTitle.textContent = profile.name;
-        profileImage.style.backgroundImage =  `url(${profile.avatar})`;
-        profileImage.alt = "Аватар пользователя";
-    })
-    .catch((err) => {
-        console.log(`${err} Ошибка. Пользователь не найден`);
-    });
+export function createProfile(user) {
+    profileDescription.textContent = user.about;
+    profileTitle.textContent = user.name;
+    profileImage.style.backgroundImage =  `url(${user.avatar})`;
+    profileImage.alt = "Аватар пользователя";
 }
 
 
@@ -33,12 +28,15 @@ export function editProfileAvatar() {
 function saveProfileAvatar(evt, popupAvatarInput) {
     popupAvatarButtonSubmit.textContent = 'Сохранить...';
     evt.preventDefault();
-    updateAvatar(popupAvatarInput.value).then((res) => {
+    updateAvatar(popupAvatarInput.value)
+        .then((res) => {
         profileImage.style.backgroundImage =  `url(${res.avatar})`;
-        popupAvatarButtonSubmit.textContent = 'Сохранить';
         hidePopup(popupAvatar);
-        popupAvatarLink.value = "";
-    })
+        popupAvatarLink.value = "";})
+        .catch((error) => console.error(error))
+        .finally(() => {
+            popupAvatarButtonSubmit.textContent = 'Сохранить';
+        });
 
 
 }

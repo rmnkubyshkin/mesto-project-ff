@@ -10,7 +10,6 @@ export function enableValidation(form, config) {
             } else {
                 inputElement.setCustomValidity("");
             }
-
             if (!inputElement.validity.valid) {
                 showInputError(form, inputElement, inputElement.validationMessage);
             } else {
