@@ -1,9 +1,9 @@
 import './index.css';
 import {initialLoadingPage} from "./components/cards";
 import {showPopup, hidePopup} from './components/modal';
-import {deleteCard ,createCard} from "./components/card";
+import {deleteCard, createCard, handleLike} from "./components/card";
 import {clearValidation, enableValidation} from "./components/validation";
-import {createProfile, editProfileAvatar} from "./components/profile";
+import {editProfileAvatar} from "./components/profile";
 import {addCardToServer, saveProfileAtServer} from "./components/api";
 
 //General elements
@@ -65,9 +65,9 @@ profileAddButton.addEventListener('click', addCard);
 profileEditButton.addEventListener('click', editProfile);
 profileImage.addEventListener('click', editProfileAvatar);
 
-popupImage.removeEventListener('click', () => exitFromPopup(popupImage));
-popupNewCardCloseButton.removeEventListener('click', () => exitFromPopup(popupNewCard));
-popupEditProfileCloseButton.removeEventListener('click', () => exitFromPopup(popupEditProfile));
+popupImage.addEventListener('click', () => hidePopup(popupImage));
+popupNewCardCloseButton.addEventListener('click', () => hidePopup(popupNewCard));
+popupEditProfileCloseButton.addEventListener('click', () => hidePopup(popupEditProfile));
 
 
 export function showImage(cardImage, cardTitle) {
@@ -76,12 +76,6 @@ export function showImage(cardImage, cardTitle) {
     popupCaptionSource.textContent = cardTitle.textContent;
     showPopup(popupImage);
 
-}
-function exitFromPopup(popup) {
-    hidePopup(popup);
-    if (!popup.classList.contains('popup_type_image')) {
-        clearValidation(popup, config);
-    }
 }
 
 function addCard() {
@@ -102,13 +96,11 @@ function saveCard(evt) {
     evt.preventDefault();
     popupNewCardButtonSubmit.textContent = "Сохранить...";
     addCardToServer(popupNewCardName.value, popupCardImageLink.value)
-        .then((result) => {
+        .then((card) => {
             const newCreatedCard = createCard(
-                result._id,
-                result.name,
-                result.link,
-                result.likes,
-                false,
+                card.owner._id,
+                card,
+                handleLike,
                 showImage,
                 deleteCard);
             placesList.prepend(newCreatedCard);
@@ -117,7 +109,6 @@ function saveCard(evt) {
         .catch((error) => console.error(error))
         .finally(() => {
             popupNewCardButtonSubmit.textContent = "Сохранить";})
-
 }
 
 function saveProfile(evt) {
@@ -128,8 +119,7 @@ function saveProfile(evt) {
     saveProfileAtServer(title, description)
         .catch((error) => console.error(error))
         .finally(() => {
-            popupEditProfileButtonSubmit.textContent = "Сохранить";
-    });
+            popupEditProfileButtonSubmit.textContent = "Сохранить";});
     profileTitle.textContent = title;
     profileDescription.textContent = description;
     hidePopup(popupEditProfile);
@@ -146,14 +136,13 @@ export const config = {
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button',
     inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__error',
-    errorClass: 'popup__error_visible'
+    inputErrorClass: 'popup__input_type-error',
+    errorClass: 'popup__error_visible',
+    buttonHoverDisabled: 'popup__button:hover:disabled'
 };
 
 initialLoadingPage();
-enableValidation(popupEditForm, config);
-enableValidation(popupNewCardForm, config);
-enableValidation(popupAvatarForm, config);
+enableValidation(config);
 
 
 
