@@ -108,5 +108,5 @@ export function updateAvatar(avatar) {
 }
 
 function handleResponse(response) {
-    return response.ok?response.json():console.log('Response is wrong!');
+    return response.ok?response.json() : Promise.reject(`Ошибка: ${response.status}`);
 }
